@@ -7,12 +7,12 @@ $request = file_get_contents('php://input');   // Get request content
 $request_array = json_decode($request, true);   // Decode JSON to Array
 
 //database
-$host = 'ec2-54-235-75-214.compute-1.amazonaws.com'; 
-$dbname = 'd3h5p6c9frv0nc';
-$port = '5432'; 
-$user = 'wesfrycfmkpxwx'; 
-$pass = 'ff7f9081467a3c7deceef1ff58b70b6d24317fee491f077eec63f2a49dff0eaa'; 
-$connection = new PDO("pgsql:host=$host;dbname=$dbname;user=$user;password=$pass;port=$port");
+// $host = 'ec2-54-235-75-214.compute-1.amazonaws.com'; 
+// $dbname = 'd3h5p6c9frv0nc';
+// $port = '5432'; 
+// $user = 'wesfrycfmkpxwx'; 
+// $pass = 'ff7f9081467a3c7deceef1ff58b70b6d24317fee491f077eec63f2a49dff0eaa'; 
+// $connection = new PDO("pgsql:host=$host;dbname=$dbname;user=$user;password=$pass;port=$port");
 
 
 // $params = array (
@@ -79,7 +79,8 @@ if ( sizeof($request_array['events']) > 0 ) {
                                 'replyToken' => $reply_token,
                                 'messages' => [[ 'type' => 'text', 'text' => $temp ]]
                             ];
-                        }elseif($text=='SET NOTIFICATION TIME'){
+                        
+                        } elseif($text=='SET NOTIFICATION TIME'){
 
                             $data = '{"to":"'. $event['source']['userId'] .'","messages":[{"type":"flex","altText":"This is a Flex Message","contents":{"type":"bubble","body":{"type":"box","layout":"vertical","contents":[{"type":"text","text":"SET NOTIFICATION TIME","weight":"bold","color":"#1DB446","size":"sm"}]},"footer":{"type":"box","layout":"vertical","spacing":"sm","contents":[{"type":"button","style":"primary","action":{"type":"postback","label":"EVERY 30 MINUTES","displayText":"EVERY 30 MINUTES","data":"EVERY 30 MINUTES"}},{"type":"button","style":"primary","action":{"type":"postback","label":"EVERY 1 HOUR","displayText":"EVERY 1 HOUR","data":"EVERY 1 HOUR"}},{"type":"button","style":"primary","action":{"type":"postback","label":"EVERY DAY","displayText":"EVERY DAY","data":"EVERY DAY"}},{"type":"spacer","size":"sm"}],"flex":0}}}]}';
                             $post_body = $data;
@@ -87,53 +88,54 @@ if ( sizeof($request_array['events']) > 0 ) {
 
                         }elseif($text=='EVERY 30 MINUTES'){
 
-                                $params = array (
-                                'user_id'    =>  $event['source']['userID'],
-                                'every_min'  =>  '30',
-                                'create_at' =>date('Y-m-d'),
-                                );
+                        //         $params = array (
+                        //         'user_id'    =>  $event['source']['userID'],
+                        //         'every_min'  =>  '30',
+                        //         'create_at' =>date('Y-m-d'),
+                        //         );
 
-                                $statement = $connection->prepare('INSERT INTO public.notification(user_id,every_min,create_at) VALUES (:user_id, :every_min, :create_at)');
-                                $result = $statement->execute($params);
+                        //         $statement = $connection->prepare('INSERT INTO public.notification(user_id,every_min,create_at) VALUES (:user_id, :every_min, :create_at)');
+                        //         $result = $statement->execute($params);
 
 
-                           $data = [
-                                'replyToken' => $reply_token,
-                                'messages' => [[ 'type' => 'text', 'text' => 'Set notification time : every 30 minutes' ]]
-                            ];   
+                        //    $data = [
+                        //         'replyToken' => $reply_token,
+                        //         'messages' => [[ 'type' => 'text', 'text' => 'Set notification time : every 30 minutes' ]]
+                        //     ];   
 
-                        }elseif($text=='EVERY 1 HOUR'){
+                        // }elseif($text=='EVERY 1 HOUR'){
 
-                                $params = array (
-                                'user_id'    =>  $event['source']['userID'],
-                                'every_min'  =>  '60',
-                                'create_at' =>date('Y-m-d'),
-                                );
+                        //         $params = array (
+                        //         'user_id'    =>  $event['source']['userID'],
+                        //         'every_min'  =>  '60',
+                        //         'create_at' =>date('Y-m-d'),
+                        //         );
 
-                                $statement = $connection->prepare('INSERT INTO public.notification(user_id,every_min,create_at) VALUES (:user_id, :every_min, :create_at)');
-                                $result = $statement->execute($params);
+                        //         $statement = $connection->prepare('INSERT INTO public.notification(user_id,every_min,create_at) VALUES (:user_id, :every_min, :create_at)');
+                        //         $result = $statement->execute($params);
 
-                            $data = [
-                                'replyToken' => $reply_token,
-                                'messages' => [[ 'type' => 'text', 'text' => 'Set notification time : every 1 hour' ]]
-                            ];
+                        //     $data = [
+                        //         'replyToken' => $reply_token,
+                        //         'messages' => [[ 'type' => 'text', 'text' => 'Set notification time : every 1 hour' ]]
+                        //     ];
 
-                        }elseif($text=='EVERY DAY'){
+                        // }elseif($text=='EVERY DAY'){
 
-                                $params = array (
-                                'user_id'    =>  $event['source']['userID'],
-                                'every_min'  =>  '1440',
-                                'create_at' =>date('Y-m-d'),
-                                );
+                        //         $params = array (
+                        //         'user_id'    =>  $event['source']['userID'],
+                        //         'every_min'  =>  '1440',
+                        //         'create_at' =>date('Y-m-d'),
+                        //         );
 
-                                $statement = $connection->prepare('INSERT INTO public.notification(user_id,every_min,create_at) VALUES (:user_id, :every_min, :create_at)');
-                                $result = $statement->execute($params);
+                        //         $statement = $connection->prepare('INSERT INTO public.notification(user_id,every_min,create_at) VALUES (:user_id, :every_min, :create_at)');
+                        //         $result = $statement->execute($params);
 
-                            $data = [
-                                'replyToken' => $reply_token,
-                                'messages' => [[ 'type' => 'text', 'text' => 'Set notification time : every day' ]]
-                            ];
-                        }else {
+                        //     $data = [
+                        //         'replyToken' => $reply_token,
+                        //         'messages' => [[ 'type' => 'text', 'text' => 'Set notification time : every day' ]]
+                        //     ];
+                        // }
+                            else {
                             $data = [
                                 'replyToken' => $reply_token,
                                 'messages' => [[ 'type' => 'text', 'text' => 'Not Found' ]]
@@ -148,6 +150,16 @@ if ( sizeof($request_array['events']) > 0 ) {
             }
     }
 }
+
+
+// notify
+    // for($x=0;$x<=1800;$x++){
+    // }
+    // for($x=0;$x<=3600;$x++){
+    // }
+    // for($x=0;$x<=86400;$x++){
+    // }
+
 echo "OK";
 
 function send_reply_message($url, $post_header, $post_body)
